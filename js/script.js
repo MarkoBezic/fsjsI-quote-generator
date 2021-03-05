@@ -36,6 +36,8 @@ let quotes = [
     quote:
       "'Failure is unimportant. It takes courage to make a fool of yourself.'",
     source: "Charlie Chaplin",
+    tags:
+      "#HUMOR #CHARLIECHAPLIN #THEATER #COMEDY #STAGE #FILM #MOVIES #HOLLYWOOD",
   },
   {
     quote:
@@ -61,11 +63,33 @@ let quotes = [
 ];
 
 /***
+ * Get random rgb value for color
+ ***/
+
+function getRandomColor() {
+  const red = Math.floor(Math.random() * 255);
+  const blue = Math.floor(Math.random() * 255);
+  const green = Math.floor(Math.random() * 255);
+
+  return `rgb(${red}, ${blue}, ${green})`;
+}
+
+/***
+ * Update background color of body element
+ ***/
+
+function updateBodyBackgroundColor() {
+  const bodyEl = document.querySelector("body");
+  const randomColor = getRandomColor();
+  bodyEl.style["background-color"] = `${randomColor}`;
+}
+
+/***
  * Function get a random quote from array of quotes
  ***/
 
 function getRandomQuote() {
-  let index = Math.floor(Math.random() * quotes.length);
+  const index = Math.floor(Math.random() * quotes.length);
   return quotes[index];
 }
 
@@ -74,7 +98,7 @@ function getRandomQuote() {
  ***/
 
 function printQuote() {
-  let randomQuote = getRandomQuote();
+  const randomQuote = getRandomQuote();
   let newString = `
     <p class="quote">${randomQuote.quote}</p>  
     <p class="source">${randomQuote.source} 
@@ -86,8 +110,20 @@ function printQuote() {
     newString += `<span class="year">${randomQuote.year}</span>`;
   }
   newString += `</p>`;
+  if (randomQuote.tags) {
+    newString += `<p>${randomQuote.tags}</p>`;
+  }
   document.getElementById("quote-box").innerHTML = newString;
+
+  updateBodyBackgroundColor();
 }
+
+/***
+ * Quote automatically updates every 10 seconds
+ ***/
+
+setInterval(printQuote, 10000);
+
 /***
  * Eventlistener prints random quote to webpage
  ***/
